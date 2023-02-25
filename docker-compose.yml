@@ -16,6 +16,8 @@ services:
       - "80:80"
       - "443:443"
     restart: unless-stopped
+    networks:
+      - internal
 
   certbot:
     build: ./certbot
@@ -35,6 +37,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./:/workdir:ro
     restart: unless-stopped
+
+  php:
+    image: php:7.4-fpm
+    volumes:
+      - ./html:/var/www/html
+    restart: unless-stopped
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge
 
 volumes:
   nginx_conf:
