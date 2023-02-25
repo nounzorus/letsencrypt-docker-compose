@@ -27,6 +27,8 @@ services:
     volumes:
       - letsencrypt_certs:/etc/letsencrypt
       - certbot_acme_challenge:/var/www/certbot
+    networks:
+      - internal
 
   cron:
     build: ./cron
@@ -37,6 +39,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./:/workdir:ro
     restart: unless-stopped
+    networks:
+      - internal
 
   php:
     image: php:7.4-fpm
